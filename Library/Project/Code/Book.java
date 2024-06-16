@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 
 public class Book implements Serializable {
@@ -47,6 +48,7 @@ public class Book implements Serializable {
         this.quantidade = quantidade;
     }
 
+    // Formatador
     @Override
     public String toString() {
         return "Livro{" +

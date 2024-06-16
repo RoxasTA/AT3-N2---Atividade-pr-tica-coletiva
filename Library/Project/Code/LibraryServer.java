@@ -1,5 +1,8 @@
+package java;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
+
+import Book;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.*;
@@ -75,8 +78,8 @@ public class LiberyServer {
 
                 String requireClint;
                 while ((requireClint = enter.readLine()) != null) {
-                    String answer = processInput(requireClint);
-                    exit.println(answer);
+                    String clint = requireClint.trim().split(" ");
+                    exit.println(clint);
                 }
 
                 clientSocket.close();
@@ -84,81 +87,5 @@ public class LiberyServer {
                 e.printStackTrace();
             }
         }
-
-        private String processInput(String input) {
-            String[] tokens = input.split("#");
-            String command = tokens[0];
-
-            switch (command) {
-                case "list":
-                    return listbooks();
-                case "rent":
-                    return rentBook();
-                case "return":
-                    return returnBook();
-                case "register":
-                    return rigisterBook();
-                case "exit":
-                    return "exit";
-                default:
-                    return "Invalid command";
-            }
-        }
-
-        private String listbooks() {
-            StringBuilder list = new StringBuilder();
-            for (Book book : books) {
-                list.append(book.toString()).append("\n");
-            }
-            return list.toString();
-        }
-
-        private String rentBook(String bookName) {
-            for (Book book : books) {
-                if (book.getTitle.equals(bookName)) {
-                    if (livro.getExemplares() > 0) {
-                        book.setExemplares(book.getSemple() -1);
-                        saveBooks();
-                        return "Book Rent!";
-                    } else {
-                        return "Theres no sample of that book!";
-                    }
-                }
-            }
-            return "Book not found!";
-        }
-
-        private String returnBook(String bookName) {
-            for (Book book : books) {
-                if (book.getTitle().equals(bookName)) {
-                    book.setSamples(book.getSamples() + 1);
-                    saveBooks();
-                    return "Book Returned!";
-                }
-            }
-            return "Book not found!";
-        }
-
-        private String rigisterBook(String bookName) {
-            String[] atribites = bookName.split("#");
-            String author = atribites[0];
-            String title = atribites[1];
-            String genre = atribites[2];
-            int samples = Integer.parseInt(atribites[3].trim());
-            Book newBook = new Book(author, title, genre, samples);
-            books.add(newBook);
-            saveBooks();
-            return "Book Rented!";
-        }
-    }
-
-    static class BooksWrapper {
-        private List<Book> books;
-
-        public BooksWrapper(List<Book> books) {this.books = books;}
-
-        public List<Book> getBooks() {return books;}
-
-        public void setBooks(List<Book> books) {this.books = books;}
     }
 }
